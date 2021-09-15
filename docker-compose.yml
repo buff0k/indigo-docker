@@ -30,7 +30,7 @@ services:
       - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
       - NOTIFICATION_EMAILS_BACKGROUND=True
-    command: start-server.sh
+    command: /app/start-server.sh
     volumes:
       - .:/usr/src/app
     ports:
