@@ -288,7 +288,7 @@ ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmlto
 RUN dpkg -i /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 # import files for automated installation
 ADD requirements.txt Gemfile Gemfile.lock start-server.sh /app/
-RUN chmod 755 /ap/start-server.sh
+RUN chmod 755 /app/start-server.sh
 #set directoty where CMD will execute
 WORKDIR /app/
 # Get pip to download and install requirements:
