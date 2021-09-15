@@ -279,25 +279,34 @@ RUN set -ex; \
 		\) -exec rm -rf '{}' +; \
 	rm -f get-pip.py
 CMD ["python3"]
+# Set Python Buffered
+ENV PYTHONUNBUFFERED=1
 # update and install wkhtmltopdf and django dependencies
-RUN apt-get -y update
-RUN apt-get -y install git fontconfig libjpeg62-turbo xfonts-75dpi xfonts-base poppler-utils postgresql-client build-essential libpq-dev
+RUN apt-get update && apt-get install git fontconfig libjpeg62-turbo xfonts-75dpi xfonts-base poppler-utils postgresql-client build-essential libpq-dev nginx -y --no-install-recommends
 # install wkhtmltopdf
 ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.buster_amd64.deb /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 RUN dpkg -i /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
-# Set Python Buffered
-ENV PYTHONUNBUFFERED=1
-#add project files to the usr/src/app folder
-ADD . /usr/src/app
+# import files for automated installation
+ADD requirements.txt Gemfile Gemfile.lock /app/
 #set directoty where CMD will execute
-WORKDIR /usr/src/app
+WORKDIR /app
 # Get pip to download and install requirements:
 RUN pip install -r requirements.txt
 # Get ruby to install Gems
 RUN gem install bundler
 RUN bundle update --bundler
 RUN bundle install
+# import nginx.default config
+ADD nginx.default /etc/nginx/sites-available/default
+# configure NginX
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+#give NGINX permissions on the app
+RUN chown -R www-data:www-data /app/src/indigo
+#set directoty where CMD will execute
+WORKDIR /app/src/indigo/
 # Run initial deployment - Currently not working for some reason
+CMD exec python manage.py makemigrations
 CMD exec python manage.py migrate
 CMD exec python manage.py update_countries_plus
 CMD exec python manage.py loaddata languages_data.json.gz
