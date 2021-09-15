@@ -1,6 +1,6 @@
 # Indigo - Docker Testing
 
-Testing repo for running [Indigo](https://github.com/OpenUpSA/indigo) on [Docker](https://docker.io) via Docker Compose:
+Testing repo for running [Indigo](https://github.com/laws-africa/indigo) on [Docker](https://docker.io) via Docker Compose:
 
 Note, this is a work in progress, currently not working, installation succeeds, however pending some revisions to the ENV variables to get it working (Especially behind an NginX reverse Proxy).
 
