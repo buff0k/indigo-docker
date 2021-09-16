@@ -13,7 +13,7 @@ services:
     restart: "on-failure"
 
   db:
-    image: postgres:latest-alpine
+    image: postgres
     restart: "on-failure"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
