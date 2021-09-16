@@ -11,11 +11,11 @@ This assumes that you have installed docker and docker-compose on a system with 
 Clone from GIT and enter:
 
 ```bash
-git clone https://github.com/buff0k/indigo
+git clone https://github.com/buff0k/indigo-docker
 ```
 
 ```bash
-cd example-indigo
+cd indigo-docker
 ```
 
 Generate a .env using example-env
@@ -53,20 +53,10 @@ NOTIFICATION_EMAILS_BACKGROUND=true
 Deploy to Docker using Docker Compose:
 
 ```bash
-docker-compose -up
+docker-compose up
 ```
 
-Manually run post deploy tasks:
-
-```bash
-docker exec -it indigo_app_1 python manage.py migrate
-```
-```bash
-docker exec -it indigo_app_1 python manage.py update_countries_plus
-```
-```bash
-docker exec -it indigo_app_1 python manage.py loaddata languages_data.json.gz
-```
+Configure Superuser:
 
 ```bash
 docker exec -it indigo_app_1 python manage.py createsuperuser
@@ -74,8 +64,10 @@ docker exec -it indigo_app_1 python manage.py createsuperuser
 
 ## What is still missing:
 
-After Initial Deploymeht, automatically run migrate && update_countries_plus && loaddata languages_data.json.gz
+Testing, as of 16-9-2021 nothing works and I am not yet sure why. Tweaks being tested now.
 
-Disable Django security preventing working behind NginX (Set Host Name???)
+Thank you Kimaru Thagana for some guidance on the process:
 
-Figure out why python manage.py runserver 0.0.0.0:8000 runs in development mode despite ENV DJANGO_DEBUG being set to false
+https://www.pluralsight.com/guides/packaging-a-django-app-using-docker-nginx-and-gunicorn
+
+Thank you @longhotsummer for your assistance in figuring out the Ruby integration as well as the work on Indigo-Example
