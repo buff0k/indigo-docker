@@ -49,7 +49,7 @@ services:
     command: sh -c "python manage.py makemigrations &&
                     python manage.py migrate &&
                     python manage.py update_countries_plus &&
-                    python manage.py loaddata languages_data.json.gz
+                    python manage.py loaddata languages_data.json.gz &&
                     gunicorn indigo.wsgi --bind 0.0.0.0:8020"
     volumes:
       - .:/usr/src/app:rw
