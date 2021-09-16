@@ -299,8 +299,4 @@ RUN bundle update --bundler
 RUN bundle install
 #set directoty where CMD will execute
 WORKDIR /app/src/indigo/
-# Run initial deployment - Currently not working for some reason
-CMD exec python manage.py makemigrations
-CMD exec python manage.py migrate
-CMD exec python manage.py update_countries_plus
-CMD exec python manage.py loaddata languages_data.json.gz
+CMD ["/bin/bash", "/app/src/indigo/entrypoint.sh"]
