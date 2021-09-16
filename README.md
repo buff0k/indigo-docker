@@ -64,7 +64,13 @@ docker exec -it indigo_app_1 python manage.py createsuperuser
 
 ## What is still missing:
 
-Testing, as of 16-9-2021 nothing works and I am not yet sure why. Tweaks being tested now.
+The Database Image Works
+
+The Creation of the App Image Works, but it doesn't act as expected (Port Mapping? WORKDIR?)
+
+Testing change to seperate Nginx Image
+
+## Shoutout
 
 Thank you Kimaru Thagana for some guidance on the process:
 
