@@ -48,7 +48,7 @@ services:
       - NOTIFICATION_EMAILS_BACKGROUND=True
     command: sh -c "python manage.py makemigrations &&
                     python manage.py migrate &&
-                    gunicorn indigo.wsgi:application --bind 0.0.0.0:8020"
+                    gunicorn indigo.wsgi:indigo --bind 0.0.0.0:8020"
     volumes:
       - .:/usr/src/app:rw
       - static_volume:/app/src/indigo
