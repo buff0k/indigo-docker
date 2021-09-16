@@ -5,7 +5,7 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - 1300:8100
+      - 8100:80
     volumes:
       - static_volume:/app/src/indigo
     depends_on:
@@ -59,3 +59,7 @@ services:
       - 8020
     depends_on:
       - db
+
+volumes:
+  postgres_data:
+  static_volume:
