@@ -72,6 +72,8 @@ Testing change to seperate Nginx Image?
 
 Set Locale in App Image?
 
+Does the App Image NEED postgres-client?
+
 ## Shoutout
 
 Build Code for Ruby from the Official Ruby Docker Image
