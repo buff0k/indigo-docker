@@ -68,7 +68,9 @@ The Database Image Works
 
 The Creation of the App Image Works, but it doesn't act as expected (Port Mapping? WORKDIR?)
 
-Testing change to seperate Nginx Image
+Testing change to seperate Nginx Image?
+
+Set Locale in App Image?
 
 ## Shoutout
 
