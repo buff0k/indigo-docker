@@ -1,11 +1,25 @@
 version: "3.3"
 
 services:
-  db:
-    image: postgres
-    restart: on-failure
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 1300:8100
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - static_volume:/app/src/indigo
+    depends_on:
+      - app
+    restart: "on-failure"
+
+  db:
+    image: postgres:latest-alpine
+    restart: "on-failure"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
     environment:
       - POSTGRES_DB=${DATABASE_NAME}
       - POSTGRES_USER=${DATABASE_USER}
@@ -14,6 +28,8 @@ services:
   app:
     build: .
     restart: on-failure
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432/${DATABASE_NAME}
       - DISABLE_COLLECTSTATIC=1
@@ -30,10 +46,16 @@ services:
       - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
       - NOTIFICATION_EMAILS_BACKGROUND=True
-    command: /app/start-server.sh
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py initiate_admin &&
+                    python manage.py collectstatic &&
+                    gunicorn indigo.wsgi:application --bind 0.0.0.0:8020"
     volumes:
-      - .:/usr/src/app
-    ports:
-      - "8100:8020"
+      - .:/usr/src/app:rw
+      - static_volume:/app/src/indigo
+    image: indigo
+    expose:
+      - 8020
     depends_on:
       - db
