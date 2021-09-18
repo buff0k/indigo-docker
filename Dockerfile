@@ -282,7 +282,7 @@ CMD ["python3"]
 # Set Python Buffered
 ENV PYTHONUNBUFFERED=1
 # update and install wkhtmltopdf and django dependencies
-RUN apt-get update && apt-get install git fontconfig libjpeg62-turbo xfonts-75dpi xfonts-base poppler-utils postgresql-client build-essential libpq-dev -y --no-install-recommends
+RUN apt-get update && apt-get install git fontconfig libjpeg62-turbo xfonts-75dpi xfonts-base poppler-utils build-essential libpq-dev -y --no-install-recommends
 # install wkhtmltopdf
 ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.buster_amd64.deb /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 RUN dpkg -i /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
@@ -297,6 +297,8 @@ RUN pip install -r requirements.txt
 RUN gem install bundler
 RUN bundle update --bundler
 RUN bundle install
+# Create staticdir
+RUN mkdir -p /app/src/indigo/staticfiles
 #set directoty where CMD will execute
 WORKDIR /app/src/indigo/
 CMD ["/bin/bash", "/app/src/indigo/entrypoint.sh"]
