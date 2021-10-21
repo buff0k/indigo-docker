@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM debian:bullseye-slim
-# install Ruby 3.6.8 from https://github.com/docker-library/ruby/blob/49168590766ac3eb0ad286154b2e01760b79f4b2/2.6/slim-buster/Dockerfile
+# Install Ruby 2.7.4 from official Ruby Dockerfile - https://github.com/docker-library/ruby/blob/49168590766ac3eb0ad286154b2e01760b79f4b2/2.7/slim-bullseye/Dockerfile
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
@@ -14,6 +14,7 @@ RUN set -eux; \
 		zlib1g-dev \
 	; \
 	rm -rf /var/lib/apt/lists/*
+
 # skip installing gem documentation
 RUN set -eux; \
 	mkdir -p /usr/local/etc; \
@@ -21,10 +22,12 @@ RUN set -eux; \
 		echo 'install: --no-document'; \
 		echo 'update: --no-document'; \
 	} >> /usr/local/etc/gemrc
+
 ENV LANG C.UTF-8
-ENV RUBY_MAJOR 2.6
-ENV RUBY_VERSION 2.6.8
-ENV RUBY_DOWNLOAD_SHA256 8262e4663169c85787fdc9bfbd04d9eb86eb2a4b56d7f98373a8fcaa18e593eb
+ENV RUBY_MAJOR 2.7
+ENV RUBY_VERSION 2.7.4
+ENV RUBY_DOWNLOAD_SHA256 2a80824e0ad6100826b69b9890bf55cfc4cf2b61a1e1330fccbcb30c46cef8d7
+
 # some of ruby's build scripts are written in ruby
 #   we purge system ruby later to make sure our final image uses what we just built
 RUN set -eux; \
@@ -102,6 +105,7 @@ RUN set -eux; \
 	ruby --version; \
 	gem --version; \
 	bundle --version
+
 # don't create ".bundle" in all our apps
 ENV GEM_HOME /usr/local/bundle
 ENV BUNDLE_SILENCE_ROOT_WARNING=1 \
@@ -109,13 +113,17 @@ ENV BUNDLE_SILENCE_ROOT_WARNING=1 \
 ENV PATH $GEM_HOME/bin:$PATH
 # adjust permissions of a few directories for running "gem install" as an arbitrary user
 RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
+
 CMD [ "irb" ]
+
 # Install Python 3.6.15 from https://github.com/docker-library/python/blob/bb68424de76756a2d3dc817f87b1f8640112461f/3.6/bullseye/slim/Dockerfile
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
+
 # http://bugs.python.org/issue19846
 # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG C.UTF-8
+
 # runtime dependencies
 RUN set -eux; \
 	apt-get update; \
@@ -124,8 +132,10 @@ RUN set -eux; \
 		netbase \
 	; \
 	rm -rf /var/lib/apt/lists/*
+
 ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
 ENV PYTHON_VERSION 3.6.15
+
 RUN set -ex \
 	\
 	&& savedAptMark="$(apt-mark showmanual)" \
@@ -236,19 +246,22 @@ RUN set -ex \
 	&& rm -rf /var/lib/apt/lists/* \
 	\
 	&& python3 --version
+
 # make some useful symlinks that are expected to exist
 RUN cd /usr/local/bin \
 	&& ln -s idle3 idle \
 	&& ln -s pydoc3 pydoc \
 	&& ln -s python3 python \
 	&& ln -s python3-config python-config
+
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
 ENV PYTHON_PIP_VERSION 21.2.4
 # https://github.com/docker-library/python/issues/365
 ENV PYTHON_SETUPTOOLS_VERSION 57.5.0
 # https://github.com/pypa/get-pip
-ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/c20b0cfd643cd4a19246ccf204e2997af70f6b21/public/get-pip.py
-ENV PYTHON_GET_PIP_SHA256 fa6f3fb93cce234cd4e8dd2beb54a51ab9c247653b52855a48dd44e6b21ff28b
+ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/d781367b97acf0ece7e9e304bf281e99b618bf10/public/get-pip.py
+ENV PYTHON_GET_PIP_SHA256 01249aa3e58ffb3e1686b7141b4e9aac4d398ef4ac3012ed9dff8dd9f685ffe0
+
 RUN set -ex; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
