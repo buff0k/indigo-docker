@@ -1,4 +1,0 @@
-gevent==1.4
-greenlet==0.4.15
-gunicorn==19.9.0
--e git+https://github.com/laws-africa/indigo.git@master#egg=indigo
