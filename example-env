@@ -1,6 +1,7 @@
 DATABASE_USER=your postgres database username
 DATABASE_PASSWORD=something secure
 DATABASE_NAME=name for your database
+DATABASE_PORT=5432
 DISABLE_COLLECTSTATIC=1
 DJANGO_DEBUG=False
 DJANGO_SECRET_KEY=some random characters
