@@ -1,37 +1,26 @@
-version: "3.3"
+version: '3.3'
 
 services:
-
-  nginx:
-    build: ./nginx
-    ports:
-      - 8100:80
+  database:
+    image: postgres:bullseye
+    restart: on-failure
     volumes:
-      - static_volume:/app/src/indigo/staticfiles
-    depends_on:
-      - app
-    restart: "on-failure"
-
-  db:
-    image: postgres
-    restart: "on-failure"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
     env_file:
-      - .env
+      - ./.env
     environment:
       - POSTGRES_DB=${DATABASE_NAME}
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_PORT=${DATABASE_PORT}
 
-  app:
-    build: .
+  indigo:
+    build: ./indigo
     restart: on-failure
     env_file:
-      - .env
+      - ./.env
     environment:
-      - DATABASE_URL=postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432/${DATABASE_NAME}
+      - DATABASE_URL=postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@database:${DATABASE_PORT}/${DATABASE_NAME}
       - DISABLE_COLLECTSTATIC=1
       - DJANGO_DEBUG=False
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
@@ -46,21 +35,19 @@ services:
       - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
       - NOTIFICATION_EMAILS_BACKGROUND=True
-    command: sh -c "python manage.py makemigrations &&
-                    python manage.py migrate &&
-                    python manage.py update_countries_plus &&
-                    python manage.py loaddata languages_data.json.gz &&
-                    python manage.py collectstatic --noinput &&
-                    gunicorn indigo.wsgi --bind 0.0.0.0:8020"
-    volumes:
-      - .:/indigo:rw
-      - static_volume:/app/src/indigo/staticfiles
-    image: indigo
-    expose:
-      - 8020
+    command: gunicorn indigo.wsgi:application --bind 0.0.0.0:8000
     depends_on:
-      - db
+      - database
+    expose:
+      - 8000
+
+  nginx:
+    build: ./nginx
+    restart: on-failure
+    ports:
+      - 1234:80
+    depends_on:
+      - indigo
 
 volumes:
   postgres_data:
-  static_volume:
