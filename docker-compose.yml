@@ -35,11 +35,11 @@ services:
       - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
       - NOTIFICATION_EMAILS_BACKGROUND=True
-    command: gunicorn indigo.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn indigo.wsgi:application --bind 0.0.0.0:5000
     depends_on:
       - database
     expose:
-      - 8000
+      - 5000
 
   nginx:
     build: ./nginx
