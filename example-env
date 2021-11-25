@@ -1,8 +1,7 @@
+# These can be changed
 DATABASE_USER=your postgres database username
-DATABASE=postgres
 DATABASE_PASSWORD=something secure
 DATABASE_NAME=name for your database
-DATABASE_PORT=5432
 DISABLE_COLLECTSTATIC=1
 DJANGO_DEBUG=False
 DJANGO_SECRET_KEY=some random characters
@@ -16,4 +15,8 @@ DJANGO_EMAIL_HOST_PORT=your smtp port (normally 25)
 DJANGO_EMAIL_HOST_USER=your email username
 GOOGLE_ANALYTICS_ID=your google analytics id
 SUPPORT_EMAIL=your support email address
+# Do not Change These
 NOTIFICATION_EMAILS_BACKGROUND=true
+DATABASE_HOST=database
+DATABASE=postgres
+DATABASE_PORT=5432
