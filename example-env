@@ -1,4 +1,5 @@
 DATABASE_USER=your postgres database username
+DATABASE=postgres
 DATABASE_PASSWORD=something secure
 DATABASE_NAME=name for your database
 DATABASE_PORT=5432
