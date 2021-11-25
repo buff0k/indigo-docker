@@ -35,6 +35,8 @@ services:
       - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
       - NOTIFICATION_EMAILS_BACKGROUND=True
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
     command: gunicorn indigo.wsgi:application --bind 0.0.0.0:5000
     depends_on:
       - database
