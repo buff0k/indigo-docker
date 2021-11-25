@@ -82,4 +82,4 @@ Build Code for Python from the Official Python Docker Image
 
 Thank you Kimaru Thagana for some guidance on the process: https://www.pluralsight.com/guides/packaging-a-django-app-using-docker-nginx-and-gunicorn
 
-Thank you @longhotsummer for your assistance in figuring out the Ruby integration as well as the work on Indigo-Example (requirements.txt Gemfile and Gemfile.lock from there)
+Thank you @longhotsummer for your assistance in figuring out the Ruby integration as well as the work on Indigo-Example (requirements.txt)
