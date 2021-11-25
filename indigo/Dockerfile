@@ -315,3 +315,7 @@ RUN pip install -e .
 RUN gem install bundler
 RUN bundle update --bundler
 RUN bundle install
+# Copy and configure entrypoint.sh
+COPY ./entrypoint.sh .
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
