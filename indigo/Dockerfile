@@ -315,7 +315,10 @@ RUN pip install -e .
 RUN gem install bundler
 RUN bundle update --bundler
 RUN bundle install
-# Copy and configure entrypoint.sh
-COPY ./entrypoint.sh .
-RUN chmod +x entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+# Postdeploy Configuration
+RUN python3 manage.py migrate
+RUN python3 manage.py update_countries_plus
+RUN python3 manage.py loaddata countries.json
+RUN python3 manage.py createsuperuser
+RUN python3 manage.py compilescss
+RUN python3 manage.py collectstatic --noinput -i docs -i \*scss 2>&1
