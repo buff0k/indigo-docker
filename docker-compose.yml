@@ -21,7 +21,6 @@ services:
       - ./.env
     environment:
       - DATABASE_URL=postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
-      - DISABLE_COLLECTSTATIC=1
       - DJANGO_DEBUG=False
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
@@ -30,14 +29,13 @@ services:
       - DJANGO_DEFAULT_FROM_EMAIL=${DJANGO_DEFAULT_FROM_EMAIL}
       - DJANGO_EMAIL_HOST=${DJANGO_EMAIL_HOST}
       - DJANGO_EMAIL_HOST_PASSWORD=${DJANGO_EMAIL_HOST_PASSWORD}
-      - DJANGO_EMAIL_HOST_PORT=${DJANGO_EMAIL_HOST_PORT}
+      - DJANGO_EMAIL_PORT=${DJANGO_EMAIL_PORT}
       - DJANGO_EMAIL_HOST_USER=${DJANGO_EMAIL_HOST_USER}
       - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
-      - NOTIFICATION_EMAILS_BACKGROUND=True
       - DATABASE_HOST=${DATABASE_HOST}
       - DATABASE_PORT=${DATABASE_PORT}
-    command: gunicorn indigo.wsgi:application --bind 0.0.0.0:5000
+    command: gunicorn --worker-class gevent indigo.wsgi:application -t 600 --certfile=server.crt --keyfile=server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
     depends_on:
       - database
     expose:
