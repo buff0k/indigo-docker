@@ -9,10 +9,10 @@ services:
     env_file:
       - ./.env
     environment:
-      - POSTGRES_DB=${DATABASE_NAME}
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_PORT=${DATABASE_PORT}
+      - POSTGRES_DB=indigo
+      - POSTGRES_USER=indigo
+      - POSTGRES_PASSWORD=indigo
+      - POSTGRES_PORT=5432
 
   indigo:
     build: ./indigo
@@ -20,7 +20,6 @@ services:
     env_file:
       - ./.env
     environment:
-      - DATABASE_URL=postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
       - DJANGO_DEBUG=False
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
