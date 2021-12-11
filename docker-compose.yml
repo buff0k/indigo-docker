@@ -32,8 +32,6 @@ services:
       - DJANGO_EMAIL_HOST_USER=${DJANGO_EMAIL_HOST_USER}
       - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
-      - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_PORT=${DATABASE_PORT}
     command: python3 manage.py migrate && gunicorn --worker-class gevent indigo.wsgi:application -t 600 --certfile=server.crt --keyfile=server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
     depends_on:
       - database
