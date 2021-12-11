@@ -1,4 +1,4 @@
-# These can be changed
+# Change to suit your needs
 # Django Configuration
 DJANGO_SECRET_KEY=some random characters
 DJANGO_DEFAULT_FROM_EMAIL=your email address
@@ -15,5 +15,3 @@ SUPPORT_EMAIL=your support email address
 GOOGLE_ANALYTICS_ID=your google analytics id
 RECAPTCHA_PUBLIC_KEY=
 RECAPTCHA_PRIVATE_KEY=
-# Do not Change These
-DJANGO_DEBUG=False
