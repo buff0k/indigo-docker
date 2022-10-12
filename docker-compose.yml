@@ -1,41 +1,30 @@
 version: '3.3'
 
-services:
-  database:
-    image: postgres:bullseye
+  indigo:
+    build: ./indigo
     restart: on-failure
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - ./.env
     environment:
-      - POSTGRES_DB=${POSTGRES_NAME}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-
-  indigo:
-    build: ./indigo
-    restart: on-failure
-    env_file:
-      - ./.env
-    environment:
       - DJANGO_DEBUG=False
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
       - DJANGO_DEFAULT_FROM_EMAIL=${DJANGO_DEFAULT_FROM_EMAIL}
       - DJANGO_EMAIL_HOST=${DJANGO_EMAIL_HOST}
       - DJANGO_EMAIL_HOST_PASSWORD=${DJANGO_EMAIL_HOST_PASSWORD}
       - DJANGO_EMAIL_PORT=${DJANGO_EMAIL_PORT}
       - DJANGO_EMAIL_HOST_USER=${DJANGO_EMAIL_HOST_USER}
+      - DJANGO_EMAIL_USE_TLS=${DJANGO_EMAIL_USE_TLS}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}  
       - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
+      - RECAPTCHA_PUBLIC_KEY={RECAPTCHA_PUBLIC_KEY}
+      - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
-      - DATABASE_URL={postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_NAME}}
-    command: python manage.py migrate && gunicorn --worker-class gevent indigo.wsgi:application -t 600 --certfile=server.crt --keyfile=server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
-    depends_on:
-      - database
+      - INDIGO_ORGANISATION=${INDIGO_ORGANISATION}
+    command: /src/indigo/python manage.py migrate && /src/indigo/gunicorn --worker-class gevent indigo.wsgi:application -t 600 --certfile=server.crt --keyfile=server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
     expose:
       - 5000
 
