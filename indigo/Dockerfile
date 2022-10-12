@@ -137,3 +137,5 @@ RUN python manage.py update_countries_plus
 RUN python manage.py loaddata countries.json
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
+# Generate SSL Certificates
+RUN openssl req -new -x509 -days 365 -nodes -out server.crt -keyout server.key
