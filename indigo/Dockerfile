@@ -123,7 +123,7 @@ RUN pip install --upgrade pip setuptools wheel gevent==21.8.0 gunicorn==20.1.0 p
 # Create Postgres Database
 RUN service postgresql start && su - postgres -c 'createdb indigo' && su - postgres -c 'createuser -d -P indigo'
 # Clone Indigo Stable 17.0.0
-RUN git clone --branch v17.0.0 https://github.com/laws-africa/indigo /src/indigo
+RUN git clone --branch --single-branch v17.0.0 https://github.com/laws-africa/indigo /src/indigo
 WORKDIR /src/indigo
 # Run setup.py
 RUN pip install -e .
