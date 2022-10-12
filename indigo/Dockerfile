@@ -114,14 +114,14 @@ RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 
 CMD [ "irb" ]
 # Install Dependencies
-RUN apt update && apt install sudo git postgresql fontconfig xfonts-base xfonts-75dpi xfonts-utils xfonts-encodings poppler-utils build-essential libpq-dev libjpeg62-turbo libssl-dev libreadline-dev zlib1g-dev autoconf bison libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev libpoppler-dev sqlite3 libsqlite3-dev libbz2-dev make zlib1g-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev --no-install-recommends -y
+RUN apt update && apt install git postgresql fontconfig xfonts-base xfonts-75dpi xfonts-utils xfonts-encodings poppler-utils build-essential libpq-dev libjpeg62-turbo libssl-dev libreadline-dev zlib1g-dev autoconf bison libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev libpoppler-dev sqlite3 libsqlite3-dev libbz2-dev make zlib1g-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev --no-install-recommends -y
 # Install wkhtmltopdf
 ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.buster_amd64.deb /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 RUN dpkg -i /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 # Install Python Dependencies
 RUN pip install --upgrade pip setuptools wheel gevent==21.8.0 gunicorn==20.1.0 psycopg2==2.8.6
 # Create Postgres Database
-RUN service postgresql start && sudo -u postgres psql -c 'CREATE DATABASE indigo' && sudo -u postgres psql -c 'CREATE USER indigo' && sudo -u postgres psql -c 'GRANT ALL PRIVILEGES ON DATABASE indigo TO indigo'
+RUN service postgresql start && su - postgres -c 'createdb indigo' && su - postgres -c 'createuser -d -P indigo'
 # Clone Indigo Stable 17.0.0
 RUN git clone --branch v17.0.0 https://github.com/laws-africa/indigo /src/indigo
 WORKDIR /src/indigo
