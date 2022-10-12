@@ -121,7 +121,7 @@ RUN dpkg -i /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 # Install Python Dependencies
 RUN pip install --upgrade pip setuptools wheel gevent==21.8.0 gunicorn==20.1.0 psycopg2==2.8.6
 # Clone Latest Indigo
-RUN git clone --branch v17.0.0 https://github.com/laws-africa/indigo .
+RUN git clone --branch v17.0.0 https://github.com/laws-africa/indigo
 # Run setup.py
 RUN pip install -e .
 # Install Ruby Gems
