@@ -1,14 +1,1 @@
-env
 .env
-venv
-.idea/
-*.pyc
-.webassets-cache
-attachments/
-indigo_app/static/lime/develop
-staticfiles/
-docs/_build
-node_modules/
-.coverage
-*.egg-info
-.ruby-version
