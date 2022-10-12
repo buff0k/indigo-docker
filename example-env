@@ -6,17 +6,15 @@ DJANGO_EMAIL_HOST=your email smtp server
 DJANGO_EMAIL_HOST_PASSWORD=your email password
 DJANGO_EMAIL_PORT=your smtp port (normally 25)
 DJANGO_EMAIL_HOST_USER=your email username
+DJANGO_EMAIL_USE_TLS=false
 # AWS Storage Configuration
 AWS_ACCESS_KEY_ID=your AWS Acces Key
 AWS_SECRET_ACCESS_KEY=your AWS secret
 AWS_S3_BUCKET=your S3 bucket name
-SUPPORT_EMAIL=your support email address
 # Google Configuration
 GOOGLE_ANALYTICS_ID=your google analytics id
 RECAPTCHA_PUBLIC_KEY=
 RECAPTCHA_PRIVATE_KEY=
-# Database Configuration
-POSTGRES_NAME=indigo
-POSTGRES_USER=indigo
-POSTGRES_PASSWORD=indigo
-POSTGRES_PORT=5432
+# Indigo Configuration
+SUPPORT_EMAIL=your support email address
+INDIGO_ORGANISATION= your organization
