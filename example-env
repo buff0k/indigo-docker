@@ -15,3 +15,8 @@ SUPPORT_EMAIL=your support email address
 GOOGLE_ANALYTICS_ID=your google analytics id
 RECAPTCHA_PUBLIC_KEY=
 RECAPTCHA_PRIVATE_KEY=
+# Database Configuration
+POSTGRES_NAME=indigo
+POSTGRES_USER=indigo
+POSTGRES_PASSWORD=indigo
+POSTGRES_PORT=5432
