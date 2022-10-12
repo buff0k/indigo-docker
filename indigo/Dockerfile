@@ -120,21 +120,19 @@ ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmlto
 RUN dpkg -i /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 # Install Python Dependencies
 RUN pip install --upgrade pip setuptools wheel gevent==21.8.0 gunicorn==20.1.0 psycopg2==2.8.6
-# Create Postgres Database
-RUN service postgresql start && su - postgres -c 'createdb indigo' && su - postgres -c 'createuser -d -P indigo'
 # Clone Indigo Stable 17.0.0
 RUN git clone --branch --single-branch v17.0.0 https://github.com/laws-africa/indigo /src/indigo
 WORKDIR /src/indigo
-# Run setup.py
+# Run setup.py to install Indigo dependencies
 RUN pip install -e .
 # Install Ruby Gems
 RUN gem install bundler
 RUN bundle install
-# Postdeploy Configuration
+# Generate Database Migrations for Indigo
 RUN python manage.py makemigrations
-RUN python manage.py migrate
-RUN python manage.py update_countries_plus
-RUN python manage.py loaddata countries.json
+# Create Postgres Database and Populate it
+RUN service postgresql start && su - postgres -c 'createdb indigo' && su - postgres -c 'createuser -d -P indigo' python manage.py migrate && python manage.py update_countries_plus && python manage.py loaddata countries.json
+# Compile Static Files
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
 # Generate SSL Certificates
