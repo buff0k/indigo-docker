@@ -1,4 +1,6 @@
-# Change to suit your needs
+# Do not change DATABASE ENV variable, it is necessary for the entrypoint
+DATABASE=postgres
+# Change below to suit your needs
 # Django Configuration
 DJANGO_SECRET_KEY=some random characters
 DJANGO_DEFAULT_FROM_EMAIL=your email address
