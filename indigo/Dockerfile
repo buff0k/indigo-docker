@@ -119,7 +119,7 @@ RUN apt update && apt install git fontconfig xfonts-base xfonts-75dpi xfonts-uti
 ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.buster_amd64.deb /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 RUN dpkg -i /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
 # Install Python Dependencies
-RUN pip install --upgrade pip setuptools wheel gevent==21.8.0 gunicorn==20.1.0 psycopg2==2.8.6
+RUN pip install --upgrade pip setuptools wheel gevent==21.8.0 gunicorn==20.1.0 psycopg2==2.8.6 django-background-tasks
 # Clone Indigo Stable 17.0.0
 RUN git clone --branch v17.0.0 --single-branch https://github.com/laws-africa/indigo /src/indigo
 WORKDIR /src/indigo
