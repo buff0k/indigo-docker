@@ -23,6 +23,7 @@ Generate a .env using example-env
 ```bash
 mv example-env .env
 ```
+Don't change the database settings, still need to change the Indigo Dockerfile to reference ENV variables at build time.
 
 Set up the .env file with your settings:
 
@@ -42,3 +43,6 @@ Configure Superuser:
 ```bash
 docker exec -it indigo_app_1 /src/indigopython manage.py createsuperuser
 ```
+
+## Breaking Issue
+Cannot get past the makemigrations command of the Indigo Docker as Docker-Compose does not create and start the Postgres container before building the Indigo Container, can't rely on a script after build because Indigo is broken and will error out if not in Debug Mode when the python setup.py migrate command is run for the first time and the ENV variables are therefore only parsed to the completed built image. Will play around further perhaps.
