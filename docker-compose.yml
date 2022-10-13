@@ -38,7 +38,7 @@ services:
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
       - INDIGO_ORGANISATION=${INDIGO_ORGANISATION}
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
-    command: cd /src/indigo/ python manage.py migrate && python manage.py update_countries_plus && python manage.py loaddata countries.json && gunicorn --worker-class gevent indigo.wsgi:application -t 600 --certfile=server.crt --keyfile=server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
+    command: python /src/indigo/manage.py migrate && python /src/indigo/manage.py update_countries_plus && python /src/indigo/manage.py loaddata countries.json && gunicorn --chdir /src/indigo --worker-class gevent indigo.wsgi:application -t 600 --certfile=/root/server.crt --keyfile=/root/server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
     expose:
       - 5000
     depends_on:
