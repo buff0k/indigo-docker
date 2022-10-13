@@ -18,7 +18,7 @@ RECAPTCHA_PRIVATE_KEY=
 # Indigo Configuration
 SUPPORT_EMAIL=your support email address
 INDIGO_ORGANISATION= your organization
-# PostgreSQL Database Configuration - Leave indigo for now
-POSTGRES_PASSWORD=indigo
-POSTGRES_USER=indigo
-POSTGRES_DB=indigo
+# PostgreSQL Database Configuration
+POSTGRES_PASSWORD=your databse password
+POSTGRES_USER=your database username
+POSTGRES_DB=your database name
