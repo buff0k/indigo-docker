@@ -128,6 +128,8 @@ RUN pip install -e .
 # Install Ruby Gems
 RUN gem install bundler
 RUN bundle install
+# Make Database Migrations
+RUN python manage.py makemigrations
 # Compile Static Files
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
