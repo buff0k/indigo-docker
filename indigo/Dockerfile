@@ -116,8 +116,8 @@ CMD [ "irb" ]
 # Install Dependencies
 RUN apt update && apt install git fontconfig xfonts-base xfonts-75dpi xfonts-utils xfonts-encodings poppler-utils build-essential libpq-dev libjpeg62-turbo libssl-dev libreadline-dev zlib1g-dev autoconf bison libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev libpoppler-dev sqlite3 libsqlite3-dev libbz2-dev make zlib1g-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev netcat ghostscript --no-install-recommends -y
 # Install wkhtmltopdf
-ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.buster_amd64.deb /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
-RUN dpkg -i /tmp/wkhtmltox_0.12.6-1.buster_amd64.deb
+ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb /tmp/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
+RUN dpkg -i /tmp/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
 # Install Python Dependencies
 RUN pip install --upgrade pip setuptools wheel gevent==21.8.0 gunicorn==20.1.0 psycopg2==2.8.6
 # Clone Indigo Stable 17.0.0
