@@ -17,11 +17,11 @@ services:
 
   indigo:
     build: ./indigo
-    restart: on-failure
+    restart: always
     env_file:
       - ./.env
     environment:
-      - DJANGO_DEBUG=False
+      - DJANGO_DEBUG=true
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEFAULT_FROM_EMAIL=${DJANGO_DEFAULT_FROM_EMAIL}
       - DJANGO_EMAIL_HOST=${DJANGO_EMAIL_HOST}
@@ -38,7 +38,7 @@ services:
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
       - INDIGO_ORGANISATION=${INDIGO_ORGANISATION}
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
-    command: python /src/indigo/manage.py migrate && python /src/indigo/manage.py update_countries_plus && python /src/indigo/manage.py loaddata countries.json && gunicorn --chdir /src/indigo --worker-class gevent indigo.wsgi:application -t 600 --certfile=/root/server.crt --keyfile=/root/server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
+    command:  gunicorn --chdir /src/indigo --worker-class gevent indigo.wsgi:application -t 600 --certfile=/root/server.crt --keyfile=/root/server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
     expose:
       - 5000
     depends_on:
