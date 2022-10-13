@@ -14,9 +14,8 @@ fi
 cd /src/indigo
 python manage.py makemigrations
 python manage.py migrate
+python manage.py award_badges
 python manage.py update_countries_plus
 python manage.py loaddata languages_data.json
-python manage.py compilescss
-python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
 
 exec "$@"
