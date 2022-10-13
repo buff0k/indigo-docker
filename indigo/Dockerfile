@@ -1,4 +1,4 @@
-FROM python:3.9-bullseye
+FROM python:3.8-slim-bullseye
 # Install Ruby 2.7.4 from official Ruby Dockerfile - https://github.com/docker-library/ruby/blob/49168590766ac3eb0ad286154b2e01760b79f4b2/2.7/slim-bullseye/Dockerfile
 RUN set -eux; \
 	apt-get update; \
@@ -128,14 +128,8 @@ RUN pip install -e .
 # Install Ruby Gems
 RUN gem install bundler
 RUN bundle install
-# Make Database Migrations
-RUN python manage.py makemigrations
-# Compile Static Files
-RUN python manage.py compilescss
-RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
 # Generate SSL Certificates
 RUN openssl req -new -x509 -days 365 -nodes -subj /C=ZA/ST=Mpumalanga/L=Middelburg/O=BufF0k/OU=IT/CN=Indigo -out /root/server.crt -keyout /root/server.key
-# Entrypoint for Migrations and Database updates
 COPY ./entrypoint.sh .
 RUN sed -i 's/\r$//g'  entrypoint.sh
 RUN chmod +x  entrypoint.sh
