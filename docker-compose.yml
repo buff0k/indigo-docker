@@ -41,6 +41,8 @@ services:
     command:  gunicorn --chdir /src/indigo --worker-class gevent indigo.wsgi:application -t 600 --certfile=/root/server.crt --keyfile=/root/server.key --bind=0.0.0.0:5000 --forwarded-allow-ips=* --log-file -
     expose:
       - 5000
+    ports:
+      - "5000:5000"
     depends_on:
       - database
 
