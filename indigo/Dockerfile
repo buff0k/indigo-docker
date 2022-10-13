@@ -128,13 +128,6 @@ RUN pip install -e .
 # Install Ruby Gems
 RUN gem install bundler
 RUN bundle install
-# Generate Database Migrations for Indigo
-RUN python manage.py makemigrations
-# Create Postgres Database and Populate it
-ENV DATABASE_URL=postgres://indigo:indigo@database/indigo
-RUN python manage.py migrate
-RUN python manage.py update_countries_plus
-RUN python manage.py loaddata countries.json
 # Compile Static Files
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
