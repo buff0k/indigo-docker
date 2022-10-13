@@ -131,6 +131,7 @@ RUN bundle install
 # Generate Database Migrations for Indigo
 RUN python manage.py makemigrations
 # Create Postgres Database and Populate it
+ENV DATABASE_URL=postgres://indigo:indigo@database/indigo
 RUN python manage.py migrate
 RUN python manage.py update_countries_plus
 RUN python manage.py loaddata countries.json
