@@ -1,5 +1,5 @@
-FROM python:3.8-slim-bullseye
-# Install Ruby 2.7.4 from official Ruby Dockerfile - https://github.com/docker-library/ruby/blob/49168590766ac3eb0ad286154b2e01760b79f4b2/2.7/slim-bullseye/Dockerfile
+FROM python:3.9-slim-bullseye
+# Install Ruby 2.7 from official Ruby Dockerfile - https://github.com/docker-FROM debian:bullseye-slim
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
@@ -24,8 +24,9 @@ RUN set -eux; \
 
 ENV LANG C.UTF-8
 ENV RUBY_MAJOR 2.7
-ENV RUBY_VERSION 2.7.4
-ENV RUBY_DOWNLOAD_SHA256 2a80824e0ad6100826b69b9890bf55cfc4cf2b61a1e1330fccbcb30c46cef8d7
+ENV RUBY_VERSION 2.7.6
+ENV RUBY_DOWNLOAD_SHA256 54dcd3044726c4ab75a9d4604720501442b229a3aed6a55fe909567da8807f24
+
 # some of ruby's build scripts are written in ruby
 #   we purge system ruby later to make sure our final image uses what we just built
 RUN set -eux; \
@@ -113,8 +114,9 @@ ENV PATH $GEM_HOME/bin:$PATH
 RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 
 CMD [ "irb" ]
+
 # Install Dependencies
-RUN apt update && apt install git fontconfig xfonts-base xfonts-75dpi xfonts-utils xfonts-encodings poppler-utils build-essential libpq-dev libjpeg62-turbo libssl-dev libreadline-dev zlib1g-dev autoconf bison libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev libpoppler-dev sqlite3 libsqlite3-dev libbz2-dev make zlib1g-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev netcat ghostscript --no-install-recommends -y
+RUN apt update && apt install git fontconfig xfonts-base xfonts-75dpi xfonts-utils xfonts-encodings poppler-utils build-essential libpq-dev libjpeg62-turbo libssl-dev libreadline-dev zlib1g-dev autoconf bison libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev poppler-utils libpoppler-dev sqlite3 libsqlite3-dev libbz2-dev make zlib1g-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev netcat --no-install-recommends -y
 # Install wkhtmltopdf
 ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb /tmp/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
 RUN dpkg -i /tmp/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
@@ -128,6 +130,9 @@ RUN pip install -e .
 # Install Ruby Gems
 RUN gem install bundler
 RUN bundle install
+# Compile Indigo Static Files
+RUN python manage.py compilescss
+RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
 # Generate SSL Certificates
 RUN openssl req -new -x509 -days 365 -nodes -subj /C=ZA/ST=Mpumalanga/L=Middelburg/O=BufF0k/OU=IT/CN=Indigo -out /root/server.crt -keyout /root/server.key
 COPY ./entrypoint.sh .
