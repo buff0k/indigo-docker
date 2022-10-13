@@ -1,4 +1,4 @@
-FROM python:3.8.14-slim-bullseye
+FROM python:3.9-bullseye
 # Install Ruby 2.7.4 from official Ruby Dockerfile - https://github.com/docker-library/ruby/blob/49168590766ac3eb0ad286154b2e01760b79f4b2/2.7/slim-bullseye/Dockerfile
 RUN set -eux; \
 	apt-get update; \
