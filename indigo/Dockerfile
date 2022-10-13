@@ -135,6 +135,7 @@ RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
 # Generate SSL Certificates
 RUN openssl req -new -x509 -days 365 -nodes -subj /C=ZA/ST=Mpumalanga/L=Middelburg/O=BufF0k/OU=IT/CN=Indigo -out /root/server.crt -keyout /root/server.key
+# Entrypoint for Migrations and Database updates
 COPY ./entrypoint.sh .
 RUN sed -i 's/\r$//g'  entrypoint.sh
 RUN chmod +x  entrypoint.sh
