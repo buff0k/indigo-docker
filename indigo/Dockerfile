@@ -119,6 +119,8 @@ CMD [ "irb" ]
 RUN apt update 
 # Install required dependencies
 RUN apt install git build-essential nodejs npm netcat poppler-utils --no-install-recommends -y
+# Testing cron
+# cron
 # Testing Removed apt packages:
 # make libjpeg62-turbo libssl-dev zlib1g-dev libyaml-dev libreadline-dev libncurses5-dev libgdbm-dev libpq-dev libncursesw5-dev liblzma-dev libffi-dev libbz2-dev install xfonts-utils xfonts-encodings libpoppler-dev bison sqlite3 libsqlite3-dev llvm autoconf xz-utils tk-dev ghostscript
 # Install wkhtmltopdf binary
@@ -139,6 +141,11 @@ RUN gem install bundler
 RUN bundle install
 # Run setup.py to install Indigo dependencies
 RUN pip install -e .
+# Enable Background Tasks & Setup Cron Job
+RUN sed -i "s/'NOTIFICATION_EMAILS_BACKGROUND': False,/'NOTIFICATION_EMAILS_BACKGROUND': True,/" ./indigo/settings.py
+# RUN crontab -l | { cat; echo "*/5 * * * * python /src/indigo/manage.py process_tasks --duration 180"; } | crontab -
+# Enable TLS Switch in settings.py
+RUN echo "EMAIL_USE_TLS = os.environ.get('DJANGO_EMAIL_USE_TLS', False)" >> ./indigo/settings.py
 # Compile Indigo Static Files
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
