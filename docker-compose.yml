@@ -21,7 +21,7 @@ services:
     env_file:
       - ./.env
     environment:
-      - DJANGO_DEBUG=true
+      - DJANGO_DEBUG=false
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEFAULT_FROM_EMAIL=${DJANGO_DEFAULT_FROM_EMAIL}
       - DJANGO_EMAIL_HOST=${DJANGO_EMAIL_HOST}

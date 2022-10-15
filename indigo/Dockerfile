@@ -1,4 +1,4 @@
-FROM python:3.9-slim-bullseye
+FROM python:3.8-slim-bullseye
 # Install Ruby 2.7 from official Ruby Dockerfile - https://github.com/docker-FROM debian:bullseye-slim
 RUN set -eux; \
 	apt-get update; \
@@ -115,28 +115,35 @@ RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 
 CMD [ "irb" ]
 
-# Install Dependencies
-RUN apt update && apt install git fontconfig xfonts-base xfonts-75dpi xfonts-utils xfonts-encodings poppler-utils build-essential libpq-dev libjpeg62-turbo libssl-dev libreadline-dev zlib1g-dev autoconf bison libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libpq-dev poppler-utils libpoppler-dev sqlite3 libsqlite3-dev libbz2-dev make zlib1g-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev netcat nodejs npm ghostscript --no-install-recommends -y
-# Install wkhtmltopdf
+# Update Container OS
+RUN apt update 
+# Install required dependencies
+RUN apt install git build-essential nodejs npm netcat poppler-utils --no-install-recommends -y
+# Testing Removed apt packages:
+# make libjpeg62-turbo libssl-dev zlib1g-dev libyaml-dev libreadline-dev libncurses5-dev libgdbm-dev libpq-dev libncursesw5-dev liblzma-dev libffi-dev libbz2-dev install xfonts-utils xfonts-encodings libpoppler-dev bison sqlite3 libsqlite3-dev llvm autoconf xz-utils tk-dev ghostscript
+# Install wkhtmltopdf binary
+RUN apt install fontconfig xfonts-base xfonts-75dpi --no-install-recommends -y
 ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb /tmp/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
 RUN dpkg -i /tmp/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
 # Install Python Dependencies
-RUN pip install --upgrade pip setuptools wheel gevent==21.8.0 gunicorn==20.1.0 psycopg2==2.8.6
+RUN pip install --upgrade wheel pip setuptools
+RUN pip install gevent==21.8.0 gunicorn==20.1.0 psycopg2-binary==2.9.4
 # Install NodeJS Dependencies
 RUN npm install -g sass
 # Clone Indigo Testing 17.2.1
 RUN git clone --branch v17.2.1 --single-branch https://github.com/laws-africa/indigo /src/indigo
+# Change to indigo folder
 WORKDIR /src/indigo
-# Run setup.py to install Indigo dependencies
-RUN pip install -e .
 # Install Ruby Gems
 RUN gem install bundler
 RUN bundle install
+# Run setup.py to install Indigo dependencies
+RUN pip install -e .
 # Compile Indigo Static Files
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
 # Generate SSL Certificates
-RUN openssl req -new -x509 -days 365 -nodes -subj /C=ZA/ST=Mpumalanga/L=Middelburg/O=BufF0k/OU=IT/CN=Indigo -out /root/server.crt -keyout /root/server.key
+RUN openssl req -new -x509 -days 365 -nodes -subj /C=ZA/ST=irrelevant/L=irrelevant/O=irrelevant/OU=irrelevant/CN=Indigo -out /root/server.crt -keyout /root/server.key
 COPY ./entrypoint.sh .
 RUN sed -i 's/\r$//g'  entrypoint.sh
 RUN chmod +x  entrypoint.sh
