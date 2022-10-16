@@ -52,7 +52,7 @@ If you want it to run as a daemon, add the -d switch to the end of the docker-co
 Configure Superuser:
 
 ```bash
-docker exec -it indigo-docker_indigo_1 /src/indigo/python manage.py createsuperuser
+docker exec -it indigo-docker_indigo_1 python /src/indigo/manage.py createsuperuser
 ```
 
 ## Current Issues
