@@ -115,6 +115,8 @@ RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 
 CMD [ "irb" ]
 
+# Update Container OS
+RUN apt update 
 # Install Dependencies
 RUN apt install git build-essential netcat poppler-utils --no-install-recommends -y
 # Install wkhtmltopdf
@@ -131,6 +133,10 @@ RUN pip install -e .
 # Install Ruby Gems
 RUN gem install bundler
 RUN bundle install
+# Enable Background Tasks & Setup Cron Job
+RUN sed -i "s/'NOTIFICATION_EMAILS_BACKGROUND': False,/'NOTIFICATION_EMAILS_BACKGROUND': True,/" ./indigo/settings.py
+# Enable TLS Switch in settings.py
+RUN echo "EMAIL_USE_TLS = os.environ.get('DJANGO_EMAIL_USE_TLS', False)" >> ./indigo/settings.py
 # Compile Indigo Static Files
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
