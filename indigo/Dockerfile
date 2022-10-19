@@ -118,7 +118,7 @@ CMD [ "irb" ]
 # Update Container OS
 RUN apt update 
 # Install required dependencies
-RUN apt install git build-essential nodejs npm netcat poppler-utils --no-install-recommends -y
+RUN apt install git build-essential netcat poppler-utils --no-install-recommends fontconfig xfonts-base xfonts-75dpi -y
 # Testing cron
 # cron
 # Testing Removed apt packages:
