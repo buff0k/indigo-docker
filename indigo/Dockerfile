@@ -138,7 +138,7 @@ RUN bundle install
 # Enable Background Tasks & Setup Cron Job
 RUN sed -i "s/'NOTIFICATION_EMAILS_BACKGROUND': False,/'NOTIFICATION_EMAILS_BACKGROUND': True,/" ./indigo/settings.py
 # Enable TLS Switch in settings.py
-RUN echo "EMAIL_USE_TLS = os.environ.get('DJANGO_EMAIL_USE_TLS', False)" >> ./indigo/settings.py
+RUN echo "EMAIL_USE_TLS = os.environ.get('DJANGO_EMAIL_USE_TLS', 'False') == 'True'" >> ./indigo/settings.py
 # Compile Indigo Static Files
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
