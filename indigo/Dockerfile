@@ -115,10 +115,8 @@ RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 
 CMD [ "irb" ]
 
-# Update Container OS
-RUN apt update 
 # Install required dependencies
-RUN apt install git build-essential nodejs npm netcat poppler-utils fontconfig xfonts-base xfonts-75dpi --no-install-recommends -y
+RUN apt update && apt install git build-essential nodejs npm netcat poppler-utils fontconfig xfonts-base xfonts-75dpi --no-install-recommends -y
 # Testing cron
 # cron
 # Testing Removed apt packages:
