@@ -128,6 +128,10 @@ RUN git clone --branch v17.0.0 --single-branch https://github.com/laws-africa/in
 WORKDIR /src/indigo
 # Run setup.py to install Indigo dependencies
 RUN pip install -e .
+# Fix issue with Gemfile and Gemfile.lock referencing incorrect version of slaw
+RUN sed -i "s/slaw (12.0.0)/slaw (13.0.0)/" ./Gemfile.lock
+RUN sed -i "s/slaw (~> 12.0)/slaw (~> 13.0)/" ./Gemfile.lock
+RUN sed -i "s/gem 'slaw', '~> 12.0'/gem 'slaw', '~> 13.0'/" ./Gemfile
 # Install Ruby Gems
 RUN gem install bundler
 RUN bundle install
