@@ -116,7 +116,7 @@ RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 CMD [ "irb" ]
 
 # Install Dependencies
-RUN apt update && apt install git build-essential netcat poppler-utils fontconfig xfonts-base xfonts-75dpi --no-install-recommends -y
+RUN apt update && apt install git build-essential netcat poppler-utils fontconfig xfonts-base xfonts-75dpi ghostscript --no-install-recommends -y
 # Install wkhtmltopdf
 ADD https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb /tmp/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
 RUN dpkg -i /tmp/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
