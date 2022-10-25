@@ -137,8 +137,9 @@ RUN gem install bundler
 RUN bundle install
 # Enable Background Tasks & Setup Cron Job
 RUN sed -i "s/'NOTIFICATION_EMAILS_BACKGROUND': False,/'NOTIFICATION_EMAILS_BACKGROUND': True,/" ./indigo/settings.py
-# Enable TLS Switch in settings.py
-RUN echo "EMAIL_USE_TLS = os.environ.get('DJANGO_EMAIL_USE_TLS', 'False') == 'True'" >> ./indigo/settings.py
+# Enable TLS or SSL by uncommenting either of the following lines:
+# RUN sed -i "/^EMAIL_PORT = int(os.environ.get('DJANGO_EMAIL_PORT', 25))/a EMAIL_USE_TLS = True" ./indigo/settings.py
+# RUN sed -i "/^EMAIL_PORT = int(os.environ.get('DJANGO_EMAIL_PORT', 25))/a EMAIL_USE_SSL = True" ./indigo/settings.py
 # Compile Indigo Static Files
 RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
