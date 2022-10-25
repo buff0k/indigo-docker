@@ -8,7 +8,6 @@ DJANGO_EMAIL_HOST=your email smtp server
 DJANGO_EMAIL_HOST_PASSWORD=your email password
 DJANGO_EMAIL_PORT=your smtp port (normally 25)
 DJANGO_EMAIL_HOST_USER=your email username
-DJANGO_EMAIL_USE_TLS=false
 # AWS Storage Configuration
 AWS_ACCESS_KEY_ID=your AWS Acces Key
 AWS_SECRET_ACCESS_KEY=your AWS secret
