@@ -30,7 +30,10 @@ nano .env
 ```
 Edit the file to match your desired settings. Change the Variables, except DATABASE=postgres (This is currently part of the entrypoint file), to your own settings.
 
-If you need to enable SSL or TLS, you will also need to edit the Dockerfile for indigo by uncommenting the relevant lines
+If you need to enable SSL or TLS, you will also need to edit the Dockerfile for indigo by uncommenting the relevant lines (140 - 142):
+```bash
+nano ./indigo/Dockerfile
+```
 
 Deploy to Docker using Docker Compose:
 
