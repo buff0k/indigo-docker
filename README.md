@@ -1,4 +1,4 @@
-# Indigo - Docker Testing
+# Indigo - Docker Production
 
 Testing repo for running [Indigo](https://github.com/laws-africa/indigo) on [Docker](https://docker.io) via Docker Compose:
 
