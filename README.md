@@ -11,7 +11,7 @@ This assumes that you have installed docker and docker-compose on a system with 
 Clone from GIT and enter:
 
 ```bash
-git clone --branch v17.2.1 https://github.com/buff0k/indigo-docker
+git clone --branch v18.0.0 https://github.com/buff0k/indigo-docker
 ```
 
 ```bash
