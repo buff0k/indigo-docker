@@ -1,4 +1,4 @@
-FROM python:3.11-slim-bookworm
+FROM python:3.10-slim-bookworm
 # Install required dependencies
 RUN apt update && apt install git build-essential nodejs npm netcat-traditional poppler-utils fontconfig xfonts-base xfonts-75dpi fop --no-install-recommends -y
 # Testing cron
