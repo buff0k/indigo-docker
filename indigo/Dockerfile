@@ -7,7 +7,7 @@ RUN apt update && apt install git build-essential nodejs npm netcat-traditional 
 # make libjpeg62-turbo libssl-dev zlib1g-dev libyaml-dev libreadline-dev libncurses5-dev libgdbm-dev libpq-dev libncursesw5-dev liblzma-dev libffi-dev libbz2-dev install xfonts-utils xfonts-encodings libpoppler-dev bison sqlite3 libsqlite3-dev llvm autoconf xz-utils tk-dev ghostscript
 # Install Python Dependencies
 RUN pip install --upgrade wheel pip setuptools
-RUN pip install gevent==21.8.0 gunicorn==20.1.0 psycopg2-binary==2.9.4
+RUN pip install gevent==21.8.0 gunicorn==20.1.0 psycopg2-binary
 # Install NodeJS Dependencies
 RUN npm install -g sass
 # Clone Indigo Production 18.0.0
