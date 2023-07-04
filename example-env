@@ -2,6 +2,7 @@
 DATABASE=postgres
 # Change below to suit your needs
 # Django Configuration
+DJANGO_DEBUG=true
 DJANGO_SECRET_KEY=some random characters
 DJANGO_DEFAULT_FROM_EMAIL=your email address
 DJANGO_EMAIL_HOST=your email smtp server
