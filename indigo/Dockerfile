@@ -10,8 +10,8 @@ RUN pip install --upgrade wheel pip setuptools
 RUN pip install gevent==21.8.0 gunicorn==20.1.0 psycopg2-binary==2.9.4
 # Install NodeJS Dependencies
 RUN npm install -g sass
-# Clone Indigo Testing 17.2.1
-RUN git clone --branch v17.2.1 --single-branch https://github.com/laws-africa/indigo /src/indigo
+# Clone Indigo Production 18.0.0
+RUN git clone --branch v18.0.0 --single-branch https://github.com/laws-africa/indigo /src/indigo
 # Change to indigo folder
 WORKDIR /src/indigo
 # Run setup.py to install Indigo dependencies
