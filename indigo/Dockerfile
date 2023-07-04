@@ -24,7 +24,7 @@ RUN python manage.py compilescss
 RUN python manage.py collectstatic --noinput -i docs -i \*scss 2>&1
 # Generate SSL Certificates
 RUN openssl req -new -x509 -days 3500 -nodes -subj /C=ZA/ST=irrelevant/L=irrelevant/O=irrelevant/OU=irrelevant/CN=Indigo -out /root/server.crt -keyout /root/server.key
-COPY ./entrypoint.sh .
+COPY entrypoint.sh .
 RUN sed -i 's/\r$//g'  entrypoint.sh
 RUN chmod +x  entrypoint.sh
 ENTRYPOINT ["/src/indigo/entrypoint.sh"]
